@@ -221,8 +221,8 @@
       </div>
       <textarea class="review-input" placeholder="Оставьте ваш отзыв"></textarea>
     </div>
-    <div class="manager-card" data-manager="Аслиддин">
-      <span class="manager-name">Аслиддин Менеджер</span>
+    <div class="manager-card" data-manager="Фирдавс">
+      <span class="manager-name">Фирдавс Менеджер</span>
       <div class="stars">
         <span class="star" data-value="1">★</span>
         <span class="star" data-value="2">★</span>
@@ -255,8 +255,15 @@
         const reviewInput = managerCard.querySelector('.review-input');
         const review = reviewInput.value.trim();
 
+        // Сначала сбросим все стили
         stars.forEach(s => {
           s.classList.remove('filled', 'clicked');
+          s.style.color = '';
+          s.style.transform = '';
+        });
+
+        // Затем установим выбранные звезды
+        stars.forEach(s => {
           if (s.dataset.value <= rating) {
             s.classList.add('filled', 'clicked');
             createSparkle(s);
@@ -277,20 +284,22 @@
 
         setTimeout(() => {
           message.classList.remove('show');
-          stars.forEach(s => s.classList.remove('filled', 'clicked'));
+          // Полностью сбрасываем стили звезд
+          stars.forEach(s => {
+            s.classList.remove('filled', 'clicked');
+            s.style.color = '';
+            s.style.transform = '';
+          });
           reviewInput.value = '';
-        }, 5000);
+        }, 1000);
       });
 
       star.addEventListener('mouseover', function() {
         const stars = this.closest('.stars').querySelectorAll('.star');
         stars.forEach(s => {
-          if (s.dataset.value <= this.dataset.value) {
+          if (s.dataset.value <= this.dataset.value && !s.classList.contains('filled')) {
             s.style.color = '#ffd700';
             s.style.transform = 'scale(1.3) rotate(15deg)';
-          } else {
-            s.style.color = '#ccc';
-            s.style.transform = 'scale(1)';
           }
         });
       });
@@ -299,8 +308,8 @@
         const stars = this.closest('.stars').querySelectorAll('.star');
         stars.forEach(s => {
           if (!s.classList.contains('filled')) {
-            s.style.color = '#ccc';
-            s.style.transform = 'scale(1)';
+            s.style.color = '';
+            s.style.transform = '';
           }
         });
       });
